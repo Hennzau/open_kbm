@@ -1,7 +1,4 @@
 use capture::*;
-use common::{Event, KeyboardEvent};
-use eyre::Result;
-use futures::StreamExt;
 
 #[tokio::main]
 async fn main() -> Result<()> {

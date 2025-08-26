@@ -8,16 +8,16 @@ mod wayland;
 #[cfg(all(unix, not(target_os = "macos")))]
 pub(crate) use wayland::*;
 
-use common::KeyboardEvent;
-use futures::{Stream, StreamExt, ready};
+use futures::{Stream, ready};
 use std::collections::{HashMap, HashSet, VecDeque};
 use std::{
     mem::swap,
     task::{Context, Poll},
 };
 
-pub(crate) use common::{Event, scancode};
-pub(crate) use eyre::Result;
+pub use common::*;
+pub use eyre::Result;
+pub use futures::StreamExt;
 
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub enum CaptureEvent {

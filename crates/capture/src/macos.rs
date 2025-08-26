@@ -1,5 +1,7 @@
 use crate::*;
 
+use eyre::Report;
+
 use bitflags::bitflags;
 
 use common::{BTN_LEFT, BTN_MIDDLE, BTN_RIGHT, Event, KeyboardEvent, PointerEvent};
