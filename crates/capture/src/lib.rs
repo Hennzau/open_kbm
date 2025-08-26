@@ -1,14 +1,6 @@
 #[cfg(target_os = "macos")]
 mod macos;
 #[cfg(target_os = "macos")]
-use std::collections::{HashMap, HashSet, VecDeque};
-use std::{
-    mem::swap,
-    task::{Context, Poll},
-};
-
-use common::KeyboardEvent;
-#[cfg(target_os = "macos")]
 pub(crate) use macos::*;
 
 #[cfg(all(unix, not(target_os = "macos")))]
@@ -16,10 +8,16 @@ mod wayland;
 #[cfg(all(unix, not(target_os = "macos")))]
 pub(crate) use wayland::*;
 
+use common::KeyboardEvent;
 use futures::{Stream, StreamExt, ready};
+use std::collections::{HashMap, HashSet, VecDeque};
+use std::{
+    mem::swap,
+    task::{Context, Poll},
+};
 
 pub(crate) use common::{Event, scancode};
-pub(crate) use eyre::{Report, Result};
+pub(crate) use eyre::Result;
 
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub enum CaptureEvent {
@@ -51,7 +49,7 @@ pub enum CaptureKind {
     #[cfg(target_os = "macos")]
     MacOS(MacOSInputCapture),
     #[cfg(all(unix, not(target_os = "macos")))]
-    Wayland {},
+    Wayland(LayerShellInputCapture),
 }
 
 impl CaptureKind {
@@ -62,6 +60,8 @@ impl CaptureKind {
         match self {
             #[cfg(target_os = "macos")]
             CaptureKind::MacOS(capture) => capture.poll_next_unpin(cx),
+            #[cfg(all(unix, not(target_os = "macos")))]
+            CaptureKind::Wayland(capture) => capture.poll_next_unpin(cx),
         }
     }
 
@@ -69,6 +69,8 @@ impl CaptureKind {
         match self {
             #[cfg(target_os = "macos")]
             CaptureKind::MacOS(capture) => capture.create(pos).await,
+            #[cfg(all(unix, not(target_os = "macos")))]
+            CaptureKind::Wayland(capture) => capture.create(pos).await,
         }
     }
 
@@ -76,6 +78,8 @@ impl CaptureKind {
         match self {
             #[cfg(target_os = "macos")]
             CaptureKind::MacOS(capture) => capture.release().await,
+            #[cfg(all(unix, not(target_os = "macos")))]
+            CaptureKind::Wayland(capture) => capture.release().await,
         }
     }
 }
@@ -97,7 +101,12 @@ impl Capture {
         Ok(Self {
             capture: {
                 #[cfg(target_os = "macos")]
-                CaptureKind::MacOS(MacOSInputCapture::new().await?)
+                let capture = CaptureKind::MacOS(MacOSInputCapture::new().await?);
+
+                #[cfg(all(unix, not(target_os = "macos")))]
+                let capture = CaptureKind::Wayland(LayerShellInputCapture::new()?);
+
+                capture
             },
             pressed_keys: Default::default(),
             position_map: Default::default(),
