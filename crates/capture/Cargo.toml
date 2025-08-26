@@ -1,0 +1,36 @@
+[package]
+name = "capture"
+authors.workspace = true
+description.workspace = true
+edition.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+readme.workspace = true
+rust-version.workspace = true
+categories.workspace = true
+documentation.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+common.workspace = true
+
+eyre.workspace = true
+
+futures.workspace = true
+tokio.workspace = true
+
+[target.'cfg(all(unix, not(target_os="macos")))'.dependencies]
+wayland-client.workspace = true
+wayland-protocols.workspace = true
+wayland-protocols-wlr.workspace = true
+
+[target.'cfg(target_os="macos")'.dependencies]
+core-graphics.workspace = true
+core-foundation.workspace = true
+core-foundation-sys.workspace = true
+
+libc.workspace = true
+keycode.workspace = true
+bitflags.workspace = true
