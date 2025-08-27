@@ -4,7 +4,6 @@ use eyre::Report;
 
 use bitflags::bitflags;
 
-use common::{BTN_LEFT, BTN_MIDDLE, BTN_RIGHT, Event, KeyboardEvent, PointerEvent};
 use core_foundation::base::{CFRelease, kCFAllocatorDefault};
 use core_foundation::date::CFTimeInterval;
 use core_foundation::number::{CFBooleanRef, kCFBooleanTrue};

@@ -14,3 +14,11 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
+okbm-common.workspace = true
+okbm-capture.workspace = true
+okbm-emulation.workspace = true
+
+eyre.workspace = true
+tokio.workspace = true
+zenoh.workspace = true
+rkyv.workspace = true

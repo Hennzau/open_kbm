@@ -4,8 +4,6 @@ use eyre::Report;
 
 use bitflags::bitflags;
 
-use common::{Event, KeyboardEvent, PointerEvent, scancode};
-
 use core_graphics::base::CGFloat;
 use core_graphics::display::{
     CGDirectDisplayID, CGDisplayBounds, CGGetDisplaysWithRect, CGPoint, CGRect, CGSize,
@@ -274,22 +272,20 @@ impl MacOSEmulation {
                     state,
                 } => {
                     let (event_type, mouse_button) = match (button, state) {
-                        (b, 1) if b == common::BTN_LEFT => {
+                        (b, 1) if b == BTN_LEFT => {
                             (CGEventType::LeftMouseDown, CGMouseButton::Left)
                         }
-                        (b, 0) if b == common::BTN_LEFT => {
-                            (CGEventType::LeftMouseUp, CGMouseButton::Left)
-                        }
-                        (b, 1) if b == common::BTN_RIGHT => {
+                        (b, 0) if b == BTN_LEFT => (CGEventType::LeftMouseUp, CGMouseButton::Left),
+                        (b, 1) if b == BTN_RIGHT => {
                             (CGEventType::RightMouseDown, CGMouseButton::Right)
                         }
-                        (b, 0) if b == common::BTN_RIGHT => {
+                        (b, 0) if b == BTN_RIGHT => {
                             (CGEventType::RightMouseUp, CGMouseButton::Right)
                         }
-                        (b, 1) if b == common::BTN_MIDDLE => {
+                        (b, 1) if b == BTN_MIDDLE => {
                             (CGEventType::OtherMouseDown, CGMouseButton::Center)
                         }
-                        (b, 0) if b == common::BTN_MIDDLE => {
+                        (b, 0) if b == BTN_MIDDLE => {
                             (CGEventType::OtherMouseUp, CGMouseButton::Center)
                         }
                         _ => {

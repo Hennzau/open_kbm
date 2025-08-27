@@ -1,10 +1,12 @@
+use rkyv::{Archive, Deserialize, Serialize};
+
 pub const BTN_LEFT: u32 = 0x110;
 pub const BTN_RIGHT: u32 = 0x111;
 pub const BTN_MIDDLE: u32 = 0x112;
 pub const BTN_BACK: u32 = 0x113;
 pub const BTN_FORWARD: u32 = 0x114;
 
-#[derive(Debug, PartialEq, Clone, Copy)]
+#[derive(Debug, PartialEq, Clone, Copy, Archive, Serialize, Deserialize)]
 pub enum PointerEvent {
     Motion { time: u32, dx: f64, dy: f64 },
 
@@ -15,7 +17,7 @@ pub enum PointerEvent {
     AxisDiscrete120 { axis: u8, value: i32 },
 }
 
-#[derive(Debug, PartialEq, Clone, Copy)]
+#[derive(Debug, PartialEq, Clone, Copy, Archive, Serialize, Deserialize)]
 pub enum KeyboardEvent {
     Key {
         time: u32,
@@ -31,7 +33,7 @@ pub enum KeyboardEvent {
     },
 }
 
-#[derive(PartialEq, Debug, Clone, Copy)]
+#[derive(PartialEq, Debug, Clone, Copy, Archive, Serialize, Deserialize)]
 pub enum Event {
     Pointer(PointerEvent),
     Keyboard(KeyboardEvent),

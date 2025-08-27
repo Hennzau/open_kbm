@@ -11,8 +11,8 @@ pub(crate) use wayland::*;
 
 use std::collections::{HashMap, HashSet};
 
-pub use common::*;
 pub use eyre::Result;
+pub use okbm_common::*;
 
 pub(crate) enum EmulationKind {
     #[cfg(target_os = "macos")]

@@ -1,4 +1,4 @@
-use capture::*;
+use okbm_capture::*;
 
 #[tokio::main]
 async fn main() -> Result<()> {

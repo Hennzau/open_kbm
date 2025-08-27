@@ -1,5 +1,5 @@
 [package]
-name = "common"
+name = "okbm-common"
 authors.workspace = true
 description.workspace = true
 edition.workspace = true
@@ -16,3 +16,4 @@ version.workspace = true
 [dependencies]
 num_enum.workspace = true
 serde.workspace = true
+rkyv.workspace = true

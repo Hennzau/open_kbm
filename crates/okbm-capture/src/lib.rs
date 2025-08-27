@@ -5,6 +5,7 @@ pub(crate) use macos::*;
 
 #[cfg(all(unix, not(target_os = "macos")))]
 mod wayland;
+use rkyv::{Archive, Deserialize, Serialize};
 #[cfg(all(unix, not(target_os = "macos")))]
 pub(crate) use wayland::*;
 
@@ -15,11 +16,11 @@ use std::{
     task::{Context, Poll},
 };
 
-pub use common::*;
 pub use eyre::Result;
 pub use futures::StreamExt;
+pub use okbm_common::*;
 
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, Archive, Serialize, Deserialize)]
 pub enum CaptureEvent {
     Begin,
 

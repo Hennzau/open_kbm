@@ -1,5 +1,5 @@
 [package]
-name = "emulation"
+name = "okbm-emulation"
 authors.workspace = true
 description.workspace = true
 edition.workspace = true
@@ -14,7 +14,7 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-common.workspace = true
+okbm-common.workspace = true
 
 eyre.workspace = true
 

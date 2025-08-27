@@ -1,5 +1,5 @@
 [package]
-name = "capture"
+name = "okbm-capture"
 authors.workspace = true
 description.workspace = true
 edition.workspace = true
@@ -14,7 +14,7 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-common.workspace = true
+okbm-common.workspace = true
 
 eyre.workspace = true
 
@@ -36,3 +36,5 @@ core-foundation-sys.workspace = true
 libc.workspace = true
 keycode.workspace = true
 bitflags.workspace = true
+
+rkyv.workspace = true
