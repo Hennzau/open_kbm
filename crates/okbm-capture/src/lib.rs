@@ -9,7 +9,7 @@ mod wayland;
 pub(crate) use wayland::*;
 
 use futures::{Stream, ready};
-use rkyv::{Archive, Deserialize, Serialize};
+use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet, VecDeque};
 use std::{
     mem::swap,
@@ -20,7 +20,7 @@ pub use eyre::Result;
 pub use futures::StreamExt;
 pub use okbm_common::*;
 
-#[derive(Copy, Clone, Debug, PartialEq, Archive, Serialize, Deserialize)]
+#[derive(Copy, Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub enum CaptureEvent {
     Begin,
 

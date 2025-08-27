@@ -1,8 +1,7 @@
 use okbm::*;
+use serde::{Deserialize, Serialize};
 
-use rkyv::{Archive, Deserialize, Serialize, rancor::Error};
-
-#[derive(Debug, PartialEq, Clone, Copy, Archive, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Clone, Copy, Serialize, Deserialize)]
 pub struct ZenohEvent {
     handle: u32,
     event: CaptureEvent,
@@ -54,16 +53,17 @@ async fn main() -> Result<()> {
 
                 let event = ZenohEvent { handle: event.0, event: event.1 };
 
-                let bytes = rkyv::to_bytes::<Error>(&event)?;
+                let bytes: Vec<u8> = bincode::serialize(&event)?;
 
-                publisher.put(bytes.as_slice()).await.map_err(Report::msg)?;
+                println!("Sending message: {:?}", bytes);
+                publisher.put(&bytes[..]).await.map_err(Report::msg)?;
             }
 
             Ok(message) = subscriber.recv_async() => {
                 let bytes = message.payload().to_bytes();
+                println!("Received message: {:?}", bytes);
 
-                let archived = rkyv::access::<ArchivedZenohEvent, Error>(&bytes[..])?;
-                let message = rkyv::deserialize::<ZenohEvent, Error>(archived)?;
+                let message: ZenohEvent = bincode::deserialize(&bytes[..])?;
 
                 let handle = message.handle;
                 let event = message.event;

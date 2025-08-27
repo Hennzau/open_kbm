@@ -16,4 +16,4 @@ version.workspace = true
 [dependencies]
 num_enum.workspace = true
 serde.workspace = true
-rkyv.workspace = true
+bincode.workspace = true

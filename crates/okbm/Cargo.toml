@@ -21,4 +21,5 @@ okbm-emulation.workspace = true
 eyre.workspace = true
 tokio.workspace = true
 zenoh.workspace = true
-rkyv.workspace = true
+bincode.workspace = true
+serde.workspace = true
