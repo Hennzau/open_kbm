@@ -17,6 +17,8 @@ pub use eyre::Result;
 pub(crate) enum EmulationKind {
     #[cfg(target_os = "macos")]
     MacOS(MacOSEmulation),
+    #[cfg(all(unix, not(target_os = "macos")))]
+    Wayland(WlrootsEmulation),
 }
 
 impl EmulationKind {
@@ -29,7 +31,7 @@ impl EmulationKind {
             #[cfg(target_os = "macos")]
             EmulationKind::MacOS(emulation) => emulation.consume(event).await,
             #[cfg(all(unix, not(target_os = "macos")))]
-            EmulationKind::Wayland(emulation) => capture.create(pos).await,
+            EmulationKind::Wayland(emulation) => emulation.consume(event, handle).await,
         }
     }
 
@@ -38,13 +40,14 @@ impl EmulationKind {
             #[cfg(target_os = "macos")]
             EmulationKind::MacOS(_) => {}
             #[cfg(all(unix, not(target_os = "macos")))]
-            EmulationKind::Wayland(emulation) => capture.create(pos).await,
+            EmulationKind::Wayland(emulation) => emulation.create(handle).await,
         }
     }
 }
 
 pub struct Emulation {
     emulation: EmulationKind,
+
     #[allow(dead_code)]
     handles: HashSet<u32>,
     pressed_keys: HashMap<u32, HashSet<u32>>,
@@ -58,7 +61,7 @@ impl Emulation {
                 let emulation = EmulationKind::MacOS(MacOSEmulation::new()?);
 
                 #[cfg(all(unix, not(target_os = "macos")))]
-                let capture = CaptureKind::Wayland(LayerShellInputCapture::new()?);
+                let emulation = EmulationKind::Wayland(WlrootsEmulation::new()?);
 
                 emulation
             },
