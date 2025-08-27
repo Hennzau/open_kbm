@@ -61,8 +61,6 @@ use wayland_client::{
     },
 };
 
-use common::{Event, KeyboardEvent, PointerEvent};
-
 use crate::*;
 
 struct Globals {

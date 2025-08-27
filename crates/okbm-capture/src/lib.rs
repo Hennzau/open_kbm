@@ -5,11 +5,11 @@ pub(crate) use macos::*;
 
 #[cfg(all(unix, not(target_os = "macos")))]
 mod wayland;
-use rkyv::{Archive, Deserialize, Serialize};
 #[cfg(all(unix, not(target_os = "macos")))]
 pub(crate) use wayland::*;
 
 use futures::{Stream, ready};
+use rkyv::{Archive, Deserialize, Serialize};
 use std::collections::{HashMap, HashSet, VecDeque};
 use std::{
     mem::swap,

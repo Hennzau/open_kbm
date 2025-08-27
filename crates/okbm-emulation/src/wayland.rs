@@ -28,8 +28,6 @@ use wayland_client::{
     protocol::{wl_registry, wl_seat},
 };
 
-use common::{Event, KeyboardEvent, PointerEvent, scancode};
-
 struct State {
     keymap: Option<(u32, OwnedFd, u32)>,
     input_for_client: HashMap<u32, VirtualInput>,

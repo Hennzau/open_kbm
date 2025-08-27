@@ -21,6 +21,8 @@ eyre.workspace = true
 futures.workspace = true
 tokio.workspace = true
 
+rkyv.workspace = true
+
 [target.'cfg(all(unix, not(target_os="macos")))'.dependencies]
 wayland-client.workspace = true
 wayland-protocols.workspace = true
@@ -36,5 +38,3 @@ core-foundation-sys.workspace = true
 libc.workspace = true
 keycode.workspace = true
 bitflags.workspace = true
-
-rkyv.workspace = true
